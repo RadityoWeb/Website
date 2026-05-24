@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress — Radityo</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* STATS ROW */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-card .stat-icon { font-size: 22px; margin-bottom: 4px; }
+    .stat-card .stat-val {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-card .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .stat-card .stat-sub { font-size: 12px; color: var(--text-dim); }
+
+    /* PROGRESS BARS */
+    .prog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .prog-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .prog-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .prog-title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .prog-sub { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .prog-pct {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--blue-bright);
+    }
+    .prog-bar-wrap {
+      height: 8px;
+      background: var(--bg3);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .prog-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .prog-vals {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .prog-edit-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .prog-input {
+      width: 70px;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    /* HEATMAP */
+    .heatmap-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    .heatmap-title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .heatmap-grid {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+    }
+    .hmap-cell {
+      width: 13px;
+      height: 13px;
+      border-radius: 2px;
+      background: var(--bg3);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .hmap-cell:hover { transform: scale(1.3); }
+    .hmap-cell.active-1 { background: rgba(59,130,246,0.35); }
+    .hmap-cell.active-2 { background: rgba(59,130,246,0.6); }
+    .hmap-cell.active-3 { background: var(--blue); }
+    .hmap-cell.today { box-shadow: 0 0 0 1.5px var(--blue-bright); }
+    .heatmap-legend {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+      margin-top: 10px;
+    }
+    .hmap-leg { width: 12px; height: 12px; border-radius: 2px; }
+
+    /* ROADMAP */
+    .roadmap-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    .roadmap-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .roadmap-title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .roadmap-items { display: flex; flex-direction: column; gap: 8px; }
+    .roadmap-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .roadmap-item:hover { border-color: var(--border2); }
+    .roadmap-item.done-item { opacity: 0.6; }
+    .roadmap-item.done-item .rm-title { text-decoration: line-through; }
+    .rm-check {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+    .done-item .rm-check { background: var(--blue); border-color: var(--blue); }
+    .rm-title { font-size: 14px; color: var(--text); flex: 1; }
+    .rm-cat { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+
+    /* ADD ROADMAP */
+    .add-rm {
+      display: flex; gap: 8px; margin-top: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .add-rm input { flex: 1; }
+    .add-rm select { width: 110px; }
+
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .prog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">radityo<span class="accent">.dev</span><span class="cursor"></span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="posts.html">Posts</a>
+    <a href="projects.html">Projects</a>
+    <a href="progress.html">Progress</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="container">
+    <div class="page-header reveal">
+      <div class="eyebrow">// dashboard</div>
+      <h1>Progress</h1>
+      <p>Track progress gym, target belajar, roadmap skill, dan streak harian.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row reveal" id="statsRow"></div>
+
+    <!-- PROGRESS BARS -->
+    <div class="section-label reveal">Target Berjalan</div>
+    <div class="prog-grid reveal" id="progGrid"></div>
+
+    <!-- HEATMAP -->
+    <div class="section-label reveal">Aktivitas 90 Hari Terakhir</div>
+    <div class="heatmap-wrap reveal">
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+      <div class="heatmap-legend">
+        <span>Less</span>
+        <div class="hmap-leg" style="background:var(--bg3)"></div>
+        <div class="hmap-leg" style="background:rgba(59,130,246,0.35)"></div>
+        <div class="hmap-leg" style="background:rgba(59,130,246,0.6)"></div>
+        <div class="hmap-leg" style="background:var(--blue)"></div>
+        <span>More</span>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="section-label reveal">Roadmap Skill</div>
+    <div class="roadmap-wrap reveal">
+      <div class="roadmap-head">
+        <div class="roadmap-title">📋 Checklist</div>
+        <span id="rmCount" style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)"></span>
+      </div>
+      <div class="roadmap-items" id="roadmapItems"></div>
+      <div class="add-rm">
+        <input type="text" id="rmInput" placeholder="Tambah target baru..." onkeydown="if(event.key==='Enter')addRm()">
+        <select id="rmCat">
+          <option>TKJ</option><option>Python</option><option>Web</option><option>Gym</option><option>Lainnya</option>
+        </select>
+        <button class="btn btn-primary" onclick="addRm()">+</button>
+      </div>
+    </div>
+
+  </div>
+  <footer class="footer"><p>radityo<span>.dev</span> · Progress diupdate secara real-time</p></footer>
+</div>
+<script src="app.js"></script>
+<script>
+  const PROG_COLORS = {
+    gym: '#10b981', python: '#3b82f6', networking: '#8b5cf6', english: '#f59e0b'
+  };
+
+  function render() {
+    const streak = DB.get(KEYS.streak) || { count: 0 };
+    const posts = (DB.get(KEYS.posts)||[]).length;
+    const proj = (DB.get(KEYS.projects)||[]).length;
+    const prog = DB.get(KEYS.progress) || {};
+    const rm = prog.roadmap || [];
+    const doneCount = rm.filter(x=>x.done).length;
+
+    // stats
+    document.getElementById('statsRow').innerHTML = [
+      { icon:'🔥', val: streak.count, label:'Hari Streak', sub:'hari berturut-turut' },
+      { icon:'✅', val: doneCount + '/' + rm.length, label:'Roadmap Done', sub:'target selesai' },
+      { icon:'📝', val: posts, label:'Posts Ditulis', sub:'artikel dipublikasikan' },
+      { icon:'🛠️', val: proj, label:'Projects', sub:'project dibuat' },
+    ].map(s=>`
+      <div class="stat-card">
+        <span class="stat-icon">${s.icon}</span>
+        <span class="stat-val">${s.val}</span>
+        <span class="stat-label">${s.label}</span>
+        <span class="stat-sub">${s.sub}</span>
+      </div>`).join('');
+
+    // progress bars
+    const bars = [
+      { key:'gym', emoji:'🏋️' },
+      { key:'python', emoji:'🐍' },
+      { key:'networking', emoji:'🌐' },
+      { key:'english', emoji:'🗣️' }
+    ];
+    document.getElementById('progGrid').innerHTML = bars.map(({key,emoji}) => {
+      const p = prog[key]; if (!p) return '';
+      const pct = Math.min(100, Math.round((p.current/p.target)*100));
+      return `<div class="prog-card">
+        <div class="prog-head">
+          <div>
+            <div class="prog-title">${emoji} ${p.label}</div>
+            <div class="prog-sub">${p.current} / ${p.target} ${p.unit}</div>
+          </div>
+          <span class="prog-pct">${pct}%</span>
+        </div>
+        <div class="prog-bar-wrap">
+          <div class="prog-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,${PROG_COLORS[key]},${PROG_COLORS[key]}88)"></div>
+        </div>
+        <div class="prog-vals"><span>0</span><span>${p.target} ${p.unit}</span></div>
+        <div class="prog-edit-row">
+          <input class="prog-input" type="number" id="inp_${key}" value="${p.current}" min="0" max="${p.target}">
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 14px" onclick="saveProg('${key}')">Update</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    renderHeatmap();
+    renderRoadmap();
+  }
+
+  function saveProg(key) {
+    const prog = DB.get(KEYS.progress) || {};
+    const val = parseInt(document.getElementById('inp_' + key).value) || 0;
+    prog[key].current = val;
+    DB.set(KEYS.progress, prog);
+    toast('✅ Progress diupdate!', 'success');
+    render();
+  }
+
+  function renderHeatmap() {
+    const streak = DB.get(KEYS.streak) || { history: [] };
+    const hist = new Set(streak.history || []);
+    const today = new Date();
+    const cells = [];
+    for (let i = 89; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const ds = d.toDateString();
+      const isToday = i === 0;
+      const active = hist.has(ds);
+      // simulate some random past activity for visual
+      const rand = Math.random();
+      let cls = '';
+      if (active) cls = 'active-3';
+      else if (rand > 0.85) cls = 'active-2';
+      else if (rand > 0.7) cls = 'active-1';
+      cells.push(`<div class="hmap-cell ${cls} ${isToday?'today':''}" title="${d.toLocaleDateString('id-ID')}"></div>`);
+    }
+    document.getElementById('heatmapGrid').innerHTML = cells.join('');
+  }
+
+  function renderRoadmap() {
+    const prog = DB.get(KEYS.progress) || {};
+    const rm = prog.roadmap || [];
+    const done = rm.filter(x=>x.done).length;
+    document.getElementById('rmCount').textContent = done + '/' + rm.length + ' selesai';
+
+    document.getElementById('roadmapItems').innerHTML = rm.map((item,i) => `
+      <div class="roadmap-item ${item.done?'done-item':''}" onclick="toggleRm(${i})">
+        <div class="rm-check">${item.done ? '✓' : ''}</div>
+        <span class="rm-title">${item.title}</span>
+        <span class="tag tag-${item.category==='TKJ'?'blue':item.category==='Python'?'green':item.category==='Web'?'cyan':'yellow'}">${item.category}</span>
+        <button onclick="event.stopPropagation();deleteRm(${i})" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 6px">×</button>
+      </div>`).join('');
+  }
+
+  function toggleRm(i) {
+    const prog = DB.get(KEYS.progress) || {};
+    prog.roadmap[i].done = !prog.roadmap[i].done;
+    DB.set(KEYS.progress, prog);
+    renderRoadmap();
+    if (prog.roadmap[i].done) toast('✅ Target selesai!', 'success');
+  }
+
+  function deleteRm(i) {
+    const prog = DB.get(KEYS.progress) || {};
+    prog.roadmap.splice(i, 1);
+    DB.set(KEYS.progress, prog);
+    renderRoadmap();
+  }
+
+  function addRm() {
+    const title = document.getElementById('rmInput').value.trim();
+    if (!title) return;
+    const cat = document.getElementById('rmCat').value;
+    const prog = DB.get(KEYS.progress) || {};
+    if (!prog.roadmap) prog.roadmap = [];
+    prog.roadmap.push({ id: uid(), title, category: cat, done: false });
+    DB.set(KEYS.progress, prog);
+    document.getElementById('rmInput').value = '';
+    renderRoadmap();
+    toast('✅ Target ditambahkan!', 'success');
+  }
+
+  render();
+</script>
+</body>
+</html>

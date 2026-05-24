@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radityo — Home</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      position: relative;
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 .name { color: var(--blue); }
+    .hero h1 .role {
+      display: block;
+      font-size: 0.55em;
+      color: var(--text-dim);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-top: 6px;
+    }
+    .hero-desc {
+      font-size: 15.5px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .hero-meta-item span { color: var(--text-dim); }
+
+    /* AVATAR */
+    .hero-avatar-wrap {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      flex-shrink: 0;
+    }
+    .hero-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border2);
+      display: block;
+      margin: 10px auto;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 8px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      border-radius: 50%;
+      border: 1px dashed var(--border2);
+    }
+    .ring1 { width: 200px; height: 200px; animation: spin 25s linear infinite; }
+    .ring2 { width: 230px; height: 230px; border-color: transparent; border-top-color: var(--blue); opacity: 0.25; animation: spin 10s linear infinite reverse; }
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .float-chip {
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border2);
+      color: var(--blue-bright);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      animation: floatY 4s ease-in-out infinite;
+      z-index: 3;
+    }
+    .chip1 { top: 10px;  left: -30px; animation-delay: 0s; }
+    .chip2 { top: 70px;  right: -40px; animation-delay: 1s; }
+    .chip3 { bottom: 60px; left: -40px; animation-delay: 2s; }
+    .chip4 { bottom: 15px; right: -30px; animation-delay: 0.5s; }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+
+    /* STATUS CARD */
+    .status-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 8px 16px 8px 12px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* ── SECTIONS ── */
+    .home-section { padding: 64px 0; }
+    .home-section + .home-section { border-top: 1px solid var(--border); }
+
+    /* SKILL CHIPS */
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-chip:hover { border-color: var(--blue); color: var(--text); background: var(--glow-blue); }
+    .skill-chip .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+    /* RECENT POSTS */
+    .post-list { display: flex; flex-direction: column; gap: 12px; }
+    .post-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+    .post-row:hover { border-color: var(--border2); transform: translateX(4px); }
+    .post-row-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 2px;
+      min-width: 18px;
+    }
+    .post-row-title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .post-row-meta {
+      display: flex; gap: 10px; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .post-row-arrow { margin-left: auto; color: var(--text-muted); font-size: 16px; align-self: center; }
+
+    /* PROGRESS MINI */
+    .progress-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .progress-mini {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .progress-mini-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-mini-label span:first-child {
+      font-size: 13px; color: var(--text-dim); font-weight: 500;
+    }
+    .progress-mini-label span:last-child {
+      font-family: var(--font-mono); font-size: 12px; color: var(--blue-bright);
+    }
+    .progress-bar {
+      height: 5px;
+      background: var(--bg3);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      border-radius: 99px;
+      transition: width 1s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* LATEST PROJECT */
+    .project-mini-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .project-mini {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .project-mini-icon { font-size: 22px; margin-bottom: 4px; }
+    .project-mini h4 {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .project-mini p { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; flex: 1; }
+
+    @media (max-width: 640px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-avatar-wrap { display: none; }
+      .progress-mini-grid { grid-template-columns: 1fr; }
+      .project-mini-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .project-mini-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">radityo<span class="accent">.dev</span><span class="cursor"></span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="posts.html">Posts</a>
+    <a href="projects.html">Projects</a>
+    <a href="progress.html">Progress</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div id="statusCard" class="status-card">
+          <span class="status-dot"></span>
+          <span id="statusText">loading...</span>
+        </div>
+
+        <div class="hero-eyebrow">
+          <span>// hello world</span>
+        </div>
+
+        <h1>
+          Saya <span class="name">Radityo</span>
+          <span class="role">TKJ Student · Web Developer · Networker</span>
+        </h1>
+
+        <p class="hero-desc">
+          Siswa kelas XI TKJ di SMK Islam 1 Blitar. Suka ngulik jaringan,
+          belajar coding, dan nulis tentang perjalanan belajar saya di sini.
+        </p>
+
+        <div class="hero-actions">
+          <a href="posts.html" class="btn btn-primary">Baca Posts →</a>
+          <a href="about.html" class="btn btn-ghost">About Me</a>
+          <a href="CV-Radityo-Professional.pdf" download class="btn btn-ghost">↓ CV</a>
+        </div>
+
+        <div class="hero-meta">
+          <div class="hero-meta-item">📍 <span>Blitar, Jawa Timur</span></div>
+          <div class="hero-meta-item">🏫 <span>SMK Islam 1 Blitar</span></div>
+          <div class="hero-meta-item" id="streakMeta">🔥 <span id="streakVal">—</span></div>
+        </div>
+      </div>
+
+      <div class="hero-avatar-wrap">
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <img src="profile.jpg" alt="Radityo" class="hero-avatar">
+        <div class="float-chip chip1">MikroTik</div>
+        <div class="float-chip chip2">Python 🐍</div>
+        <div class="float-chip chip3">Cisco PT</div>
+        <div class="float-chip chip4">HTML/CSS</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- SKILLS -->
+    <section class="home-section reveal">
+      <div class="section-label">Skills & Teknologi</div>
+      <div class="skill-chips" id="skillChips"></div>
+    </section>
+
+    <!-- RECENT POSTS -->
+    <section class="home-section reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div class="section-label" style="margin:0;flex:1">Postingan Terbaru</div>
+        <a href="posts.html" class="btn btn-ghost" style="font-size:12px;padding:7px 14px">Semua Posts →</a>
+      </div>
+      <div class="post-list" id="recentPosts"></div>
+    </section>
+
+    <!-- PROGRESS SNAPSHOT -->
+    <section class="home-section reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div class="section-label" style="margin:0;flex:1">Progress Belajar</div>
+        <a href="progress.html" class="btn btn-ghost" style="font-size:12px;padding:7px 14px">Detail →</a>
+      </div>
+      <div class="progress-mini-grid" id="progressMini"></div>
+    </section>
+
+    <!-- LATEST PROJECTS -->
+    <section class="home-section reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div class="section-label" style="margin:0;flex:1">Project Terbaru</div>
+        <a href="projects.html" class="btn btn-ghost" style="font-size:12px;padding:7px 14px">Semua →</a>
+      </div>
+      <div class="project-mini-grid" id="projectMini"></div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <p>radityo<span>.dev</span> · Dibuat dari nol dengan HTML, CSS & JS · <span>2025</span></p>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+<script>
+  const SKILLS = [
+    { label:'MikroTik',    color:'#3b82f6', icon:'📡' },
+    { label:'Cisco PT',    color:'#06b6d4', icon:'🗺️' },
+    { label:'IP/Subnetting',color:'#8b5cf6',icon:'🌐' },
+    { label:'Crimping UTP',color:'#f59e0b', icon:'🔌' },
+    { label:'Linux',       color:'#10b981', icon:'🐧' },
+    { label:'HTML & CSS',  color:'#f97316', icon:'🖥️' },
+    { label:'JavaScript',  color:'#eab308', icon:'⚡' },
+    { label:'Python',      color:'#3b82f6', icon:'🐍' },
+    { label:'Git',         color:'#ef4444', icon:'🔀' },
+  ];
+
+  const ICONS = { Website:'🖥️', Networking:'📡', Coding:'🐍', Tool:'🛠️' };
+  const STATUS_COLORS = { live:'#10b981', done:'#3b82f6', wip:'#f59e0b' };
+
+  function render() {
+    // Status
+    const st = DB.get(KEYS.status) || {};
+    document.getElementById('statusText').textContent = st.text || 'Status belum diset';
+
+    // Streak
+    const streak = DB.get(KEYS.streak) || { count: 0 };
+    document.getElementById('streakVal').textContent = streak.count + ' hari streak';
+
+    // Skills
+    document.getElementById('skillChips').innerHTML = SKILLS.map(s => `
+      <div class="skill-chip">
+        <span class="dot" style="background:${s.color}"></span>
+        ${s.icon} ${s.label}
+      </div>`).join('');
+
+    // Recent posts
+    const posts = (DB.get(KEYS.posts) || []).slice(0, 3);
+    document.getElementById('recentPosts').innerHTML = posts.length ? posts.map((p, i) => `
+      <a class="post-row" href="posts.html#${p.id}">
+        <span class="post-row-num">0${i+1}</span>
+        <div style="flex:1">
+          <div class="post-row-title">${p.title}</div>
+          <div class="post-row-meta">
+            <span class="tag tag-${p.category==='TKJ'?'blue':p.category==='Python'?'green':'purple'}">${p.category}</span>
+            <span>${fmt.relative(p.date)}</span>
+            <span>${p.readTime}</span>
+          </div>
+        </div>
+        <span class="post-row-arrow">›</span>
+      </a>`).join('') : '<p style="color:var(--text-muted);font-size:13px">Belum ada postingan.</p>';
+
+    // Progress mini
+    const prog = DB.get(KEYS.progress) || {};
+    const bars = ['gym','python','networking','english'];
+    document.getElementById('progressMini').innerHTML = bars.map(k => {
+      const p = prog[k]; if (!p) return '';
+      const pct = Math.round((p.current / p.target) * 100);
+      return `<div class="progress-mini">
+        <div class="progress-mini-label">
+          <span>${p.label}</span>
+          <span>${p.current}/${p.target} ${p.unit}</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Projects mini
+    const projects = (DB.get(KEYS.projects) || []).slice(0, 3);
+    document.getElementById('projectMini').innerHTML = projects.map(p => `
+      <div class="card project-mini">
+        <div class="project-mini-icon">${ICONS[p.type]||'🛠️'}</div>
+        <h4>${p.title}</h4>
+        <p>${p.desc}</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+          ${p.tech.slice(0,2).map(t=>`<span class="tag tag-blue">${t}</span>`).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Posts — Radityo</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* SEARCH + FILTER */
+    .posts-toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-box input {
+      padding-left: 36px;
+      background: var(--card);
+    }
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+    }
+    .cat-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .cat-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .cat-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .cat-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* POST GRID */
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .post-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .post-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .post-card h3 {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .post-card p {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .post-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+    .post-card-views { display: flex; align-items: center; gap: 4px; }
+    .empty-posts {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-muted);
+    }
+    .empty-posts .big { font-size: 40px; margin-bottom: 12px; }
+
+    /* POST READER MODAL */
+    .reader-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      overflow-y: auto;
+      padding: 40px 16px;
+    }
+    .reader-backdrop.open { display: block; }
+    .reader-modal {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .reader-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .reader-header .reader-meta {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .reader-header h1 {
+      font-family: var(--font-head);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .reader-header .reader-stats {
+      display: flex; gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .reader-body {
+      padding: 28px 32px 40px;
+    }
+    .reader-body h1,
+    .reader-body h2,
+    .reader-body h3 {
+      font-family: var(--font-head);
+      color: var(--text);
+      margin: 28px 0 12px;
+      letter-spacing: -0.02em;
+    }
+    .reader-body h1 { font-size: 22px; }
+    .reader-body h2 { font-size: 18px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .reader-body h3 { font-size: 15px; color: var(--blue-bright); }
+    .reader-body p { font-size: 15px; color: var(--text-dim); line-height: 1.85; margin-bottom: 16px; }
+    .reader-body strong { color: var(--text); }
+    .reader-body em { color: var(--text-dim); font-style: italic; }
+    .reader-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--cyan);
+    }
+    .reader-body blockquote {
+      border-left: 3px solid var(--blue);
+      padding: 10px 16px;
+      background: var(--glow-blue);
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-style: italic;
+      color: var(--text-dim);
+    }
+    .reader-body ul { padding-left: 20px; color: var(--text-dim); margin-bottom: 16px; }
+    .reader-body li { margin-bottom: 6px; }
+    .reader-body a { color: var(--blue-bright); text-decoration: underline; }
+    .reader-close {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text-dim);
+      font-family: var(--font-head);
+      font-size: 13px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    .reader-close:hover { border-color: var(--blue); color: var(--text); }
+
+    @media (max-width: 640px) {
+      .post-grid { grid-template-columns: 1fr; }
+      .reader-header, .reader-body { padding: 20px; }
+      .reader-header h1 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">radityo<span class="accent">.dev</span><span class="cursor"></span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="posts.html">Posts</a>
+    <a href="projects.html">Projects</a>
+    <a href="progress.html">Progress</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+    <div class="page-header reveal">
+      <div class="eyebrow">// blog</div>
+      <h1>Posts</h1>
+      <p>Catatan perjalanan belajar — TKJ, Python, gym, anime, dan kehidupan sekolah.</p>
+    </div>
+
+    <div class="posts-toolbar reveal">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari postingan...">
+      </div>
+      <a href="admin-posts.html" class="btn btn-primary" style="white-space:nowrap">+ Tulis Post</a>
+    </div>
+
+    <div class="cat-filters reveal" id="catFilters"></div>
+
+    <div style="height:20px"></div>
+    <div class="post-grid reveal" id="postGrid"></div>
+
+    <div style="height:80px"></div>
+  </div>
+
+  <footer class="footer">
+    <p>radityo<span>.dev</span> · <span id="postCount">0</span> posts dipublikasikan</p>
+  </footer>
+</div>
+
+<!-- POST READER -->
+<div class="reader-backdrop" id="readerBackdrop">
+  <div class="reader-modal">
+    <div style="padding:16px 24px 0">
+      <button class="reader-close" onclick="closeReader()">← Kembali ke Posts</button>
+    </div>
+    <div class="reader-header">
+      <div class="reader-meta" id="readerMeta"></div>
+      <h1 id="readerTitle"></h1>
+      <div class="reader-stats" id="readerStats"></div>
+    </div>
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  const CATS = ['Semua','TKJ','Python','Gym','Anime','Bahasa','Sekolah'];
+  const CAT_TAG = { TKJ:'tag-blue', Python:'tag-green', Gym:'tag-purple', Anime:'tag-cyan', Bahasa:'tag-yellow', Sekolah:'tag-blue' };
+
+  let activeCat = 'Semua';
+  let query = '';
+
+  // Build categories
+  document.getElementById('catFilters').innerHTML = CATS.map(c => `
+    <button class="cat-btn ${c==='Semua'?'active':''}" onclick="setCat('${c}')">${c}</button>
+  `).join('');
+
+  function setCat(c) {
+    activeCat = c;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.textContent === c));
+    renderPosts();
+  }
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    query = e.target.value.toLowerCase();
+    renderPosts();
+  });
+
+  function renderPosts() {
+    let posts = DB.get(KEYS.posts) || [];
+    if (activeCat !== 'Semua') posts = posts.filter(p => p.category === activeCat);
+    if (query) posts = posts.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.excerpt.toLowerCase().includes(query) ||
+      (p.tags || []).some(t => t.includes(query))
+    );
+
+    document.getElementById('postCount').textContent = posts.length;
+
+    const grid = document.getElementById('postGrid');
+    if (!posts.length) {
+      grid.innerHTML = `<div class="empty-posts"><div class="big">📭</div><p>Tidak ada postingan${query ? ` untuk "${query}"` : ''}.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = posts.map(p => `
+      <div class="card post-card" onclick="openPost('${p.id}')">
+        <div class="post-card-meta">
+          <span class="tag ${CAT_TAG[p.category]||'tag-blue'}">${p.category}</span>
+          ${(p.tags||[]).slice(0,2).map(t=>`<span class="tag tag-blue" style="opacity:.6">#${t}</span>`).join('')}
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+        <div class="post-card-footer">
+          <span>${fmt.relative(p.date)}</span>
+          <div class="post-card-views">👁 ${p.views || 0} · ⏱ ${p.readTime}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function openPost(id) {
+    const posts = DB.get(KEYS.posts) || [];
+    const p = posts.find(x => x.id === id);
+    if (!p) return;
+
+    // increment views
+    DB.update(KEYS.posts, id, { views: (p.views || 0) + 1 });
+
+    document.getElementById('readerMeta').innerHTML = `
+      <span class="tag ${CAT_TAG[p.category]||'tag-blue'}">${p.category}</span>
+      ${(p.tags||[]).map(t=>`<span class="tag tag-blue" style="opacity:.5">#${t}</span>`).join('')}`;
+    document.getElementById('readerTitle').textContent = p.title;
+    document.getElementById('readerStats').innerHTML = `
+      <span>📅 ${fmt.date(p.date)}</span>
+      <span>⏱ ${p.readTime}</span>
+      <span>👁 ${(p.views||0)+1} views</span>`;
+    document.getElementById('readerBody').innerHTML = parseMarkdown(p.content || p.excerpt);
+
+    const bd = document.getElementById('readerBackdrop');
+    bd.classList.add('open');
+    bd.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+
+    // update hash for deep link
+    history.replaceState(null,'','#' + id);
+  }
+
+  function closeReader() {
+    document.getElementById('readerBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+    history.replaceState(null,'',location.pathname);
+    renderPosts();
+  }
+
+  // close on backdrop click
+  document.getElementById('readerBackdrop').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeReader();
+  });
+
+  // deep link support
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    setTimeout(() => openPost(id), 200);
+  }
+
+  renderPosts();
+</script>
+</body>
+</html>
