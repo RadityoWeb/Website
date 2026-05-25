@@ -260,7 +260,14 @@
     <div class="reader-body" id="readerBody"></div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const supabase = window.supabase.createClient(
+  'https://fjzodidenrrespgbnmby.supabase.co',
+  'sb_publishable_W5fpLaxVIvGZvVTaXy0taQ_DeLZc1PH'
+);
+</script>
 <script src="app.js"></script>
 <script>
   const CATS = ['Semua','TKJ','Python','Gym','Anime','Bahasa','Sekolah'];
