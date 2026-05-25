@@ -241,7 +241,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const supabase = window.supabase.createClient(
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
   'https://fjzodidenrrespgbnmby.supabase.co',
   'sb_publishable_W5fpLaxVIvGZvVTaXy0taQ_DeLZc1PH'
 );
