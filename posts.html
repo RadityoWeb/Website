@@ -361,34 +361,10 @@ const supabaseClient = createClient(
     </div>
   `).join('');
 
-
-  function openPost(id) {
-    const posts = DB.get(KEYS.posts) || [];
-    const p = posts.find(x => x.id === id);
-    if (!p) return;
-
-    // increment views
-    DB.update(KEYS.posts, id, { views: (p.views || 0) + 1 });
-
-    document.getElementById('readerMeta').innerHTML = `
-      <span class="tag ${CAT_TAG[p.category]||'tag-blue'}">${p.category}</span>
-      ${(p.tags||[]).map(t=>`<span class="tag tag-blue" style="opacity:.5">#${t}</span>`).join('')}`;
-    document.getElementById('readerTitle').textContent = p.title;
-    document.getElementById('readerStats').innerHTML = `
-      <span>📅 ${fmt.date(p.date)}</span>
-      <span>⏱ ${p.readTime}</span>
-      <span>👁 ${(p.views||0)+1} views</span>`;
-    document.getElementById('readerBody').innerHTML = parseMarkdown(p.content || p.excerpt);
-
-    const bd = document.getElementById('readerBackdrop');
-    bd.classList.add('open');
-    bd.scrollTop = 0;
-    document.body.style.overflow = 'hidden';
-
-    // update hash for deep link
-    history.replaceState(null,'','#' + id);
-  }
-
+function openPost(id) {
+  alert('Reader belum disambungkan ke Supabase');
+}
+ 
   function closeReader() {
     document.getElementById('readerBackdrop').classList.remove('open');
     document.body.style.overflow = '';
