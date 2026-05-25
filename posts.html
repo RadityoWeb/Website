@@ -303,8 +303,9 @@ const supabaseClient = createClient(
     renderPosts();
   });
 
-  async function renderPosts() {
-  const { data: posts, error } = await supabase
+ async function renderPosts() {
+
+  const { data: posts, error } = await supabaseClient
     .from('posts')
     .select('*')
     .order('date', { ascending: false });
@@ -314,24 +315,52 @@ const supabaseClient = createClient(
     return;
   }
 
-  document.getElementById('postCount').textContent = posts.length;
+  let filtered = posts || [];
+
+  if (activeCat !== 'Semua') {
+    filtered = filtered.filter(p => p.category === activeCat);
+  }
+
+  if (query) {
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.excerpt.toLowerCase().includes(query)
+    );
+  }
+
+  document.getElementById('postCount').textContent = filtered.length;
 
   const grid = document.getElementById('postGrid');
 
-  grid.innerHTML = posts.map(p => `
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty-posts">
+        <div class="big">📭</div>
+        <p>Tidak ada postingan.</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
     <div class="card post-card">
       <div class="post-card-meta">
         <span class="tag tag-blue">${p.category}</span>
       </div>
+
       <h3>${p.title}</h3>
-      <p>${p.excerpt}</p>
+
+      <p>${p.excerpt || ''}</p>
+
       <div class="post-card-footer">
-        <span>${new Date(p.date).toLocaleDateString()}</span>
+        <span>${new Date(p.date).toLocaleDateString('id-ID')}</span>
+        <div class="post-card-views">
+          👁 ${p.views || 0}
+        </div>
       </div>
     </div>
   `).join('');
-} {
-    let posts = DB.get(KEYS.posts) || [];
+}    let posts = DB.get(KEYS.posts) || [];
     if (activeCat !== 'Semua') posts = posts.filter(p => p.category === activeCat);
     if (query) posts = posts.filter(p =>
       p.title.toLowerCase().includes(query) ||
