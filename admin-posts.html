@@ -283,63 +283,47 @@ const supabase = window.supabase.createClient(
     }
   }
 
- async function publishPost() {
-  const title   = document.getElementById('postTitle').value.trim();
-  const content = document.getElementById('postContent').value.trim();
-  const cat     = document.getElementById('postCat').value;
-  const tags    = document.getElementById('postTags').value;
-  const excerpt = document.getElementById('postExcerpt').value.trim();
-
-  if (!title || !content) {
-    alert('Isi judul dan konten');
-    return;
-  }
-
-  const { error } = await supabase
-    .from('posts')
-    .insert([{
-      title,
-      content,
-      excerpt,
-      category: cat,
-      tags,
-      date: new Date(),
-      views: 0,
-      readtime: '3 mnt'
-    }]);
-
-  if (error) {
-    console.error(error);
-    alert('Gagal publish');
-    return;
-  }
-
-  alert('Post berhasil dipublish!');
-  location.reload();
-} {
+async function publishPost() {
+  try {
     const title   = document.getElementById('postTitle').value.trim();
     const content = document.getElementById('postContent').value.trim();
     const cat     = document.getElementById('postCat').value;
-    const tags    = document.getElementById('postTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-    const excerpt = document.getElementById('postExcerpt').value.trim() ||
-                    content.replace(/[#*`>-]/g,'').slice(0,150) + '...';
+    const tags    = document.getElementById('postTags').value;
+    const excerpt = document.getElementById('postExcerpt').value.trim();
 
-    if (!title) { toast('❌ Judul wajib diisi!', 'error'); return; }
-    if (!content) { toast('❌ Konten kosong!', 'error'); return; }
+    if (!title || !content) {
+      alert('Isi judul dan konten');
+      return;
+    }
 
-    const post = {
-      id: uid(), title, content, excerpt, category: cat, tags,
-      date: new Date().toISOString(),
-      readTime: readTime(content),
-      views: 0
-    };
+    const { data, error } = await supabase
+      .from('posts')
+      .insert([{
+        title: title,
+        content: content,
+        excerpt: excerpt,
+        category: cat,
+        tags: tags,
+        date: new Date().toISOString(),
+        views: 0,
+        readtime: '3 mnt'
+      }]);
 
-    DB.push(KEYS.posts, post);
-    toast('✅ Post dipublikasikan!', 'success');
+    if (error) {
+      console.error(error);
+      alert('ERROR: ' + error.message);
+      return;
+    }
+
+    alert('Post berhasil dipublish!');
+
     clearForm();
-    renderSaved();
-  }
 
+  } catch(err) {
+    console.error(err);
+    alert('ERROR BESAR: ' + err.message);
+  }
+}
   function clearForm() {
     document.getElementById('postTitle').value = '';
     document.getElementById('postContent').value = '';
