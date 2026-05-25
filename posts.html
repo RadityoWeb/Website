@@ -360,36 +360,7 @@ const supabaseClient = createClient(
       </div>
     </div>
   `).join('');
-}    let posts = DB.get(KEYS.posts) || [];
-    if (activeCat !== 'Semua') posts = posts.filter(p => p.category === activeCat);
-    if (query) posts = posts.filter(p =>
-      p.title.toLowerCase().includes(query) ||
-      p.excerpt.toLowerCase().includes(query) ||
-      (p.tags || []).some(t => t.includes(query))
-    );
 
-    document.getElementById('postCount').textContent = posts.length;
-
-    const grid = document.getElementById('postGrid');
-    if (!posts.length) {
-      grid.innerHTML = `<div class="empty-posts"><div class="big">📭</div><p>Tidak ada postingan${query ? ` untuk "${query}"` : ''}.</p></div>`;
-      return;
-    }
-
-    grid.innerHTML = posts.map(p => `
-      <div class="card post-card" onclick="openPost('${p.id}')">
-        <div class="post-card-meta">
-          <span class="tag ${CAT_TAG[p.category]||'tag-blue'}">${p.category}</span>
-          ${(p.tags||[]).slice(0,2).map(t=>`<span class="tag tag-blue" style="opacity:.6">#${t}</span>`).join('')}
-        </div>
-        <h3>${p.title}</h3>
-        <p>${p.excerpt}</p>
-        <div class="post-card-footer">
-          <span>${fmt.relative(p.date)}</span>
-          <div class="post-card-views">👁 ${p.views || 0} · ⏱ ${p.readTime}</div>
-        </div>
-      </div>`).join('');
-  }
 
   function openPost(id) {
     const posts = DB.get(KEYS.posts) || [];
