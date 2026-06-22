@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radityo Lintang — TKJ & Web Dev</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="description" content="Portofolio Radityo Lintang Sasongko — siswa TKJ SMK Islam 1 Blitar, belajar jaringan komputer dan web development.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <span class="nav-logo">Radityo<span class="dot">.</span></span>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Kontak</a>
+    </div>
+    <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span> Open to Internship & Kolaborasi
+      </div>
+      <h1 class="hero-title">
+        Halo, saya <span class="highlight">Radityo</span> 👋<br>
+        Siswa TKJ & Web Developer
+      </h1>
+      <p class="hero-desc">
+        Siswa kelas XI Teknik Komputer dan Jaringan di SMK Islam 1 Blitar.
+        Saya belajar jaringan komputer, konfigurasi MikroTik, dan mulai
+        merambah ke web development. Suka ngulik teknologi dan pengen
+        jadi network engineer profesional.
+      </p>
+      <div class="hero-actions">
+        <a href="CV-Radityo-Professional.pdf" download class="btn-primary">⬇ Download CV</a>
+        <a href="#projects" class="btn-secondary">Lihat Project →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">2+</span>
+          <span class="stat-label">Tahun Belajar TKJ</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">3+</span>
+          <span class="stat-label">Mini Project</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">16</span>
+          <span class="stat-label">Tahun</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="avatar-wrap">
+        <img src="profile.jpg" alt="Foto Radityo" class="hero-avatar">
+        <div class="avatar-ring"></div>
+        <div class="avatar-ring ring2"></div>
+      </div>
+      <!-- floating tech badges -->
+      <div class="float-badge b1">MikroTik</div>
+      <div class="float-badge b2">Linux</div>
+      <div class="float-badge b3">Cisco PT</div>
+      <div class="float-badge b4">HTML/CSS</div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About Me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Nama saya <strong>Radityo Lintang Sasongko</strong>, siswa jurusan
+            <strong>Teknik Komputer dan Jaringan (TKJ)</strong> di SMK Islam 1 Blitar.
+            Sekarang saya fokus mendalami dunia jaringan komputer — mulai dari
+            konfigurasi dasar sampai simulasi topologi.
+          </p>
+          <p style="margin-top:12px">
+            Selain belajar jaringan, saya juga mulai belajar <strong>web development</strong>
+            secara otodidak karena penasaran bagaimana website dibuat dari nol.
+            Tujuan jangka panjang saya adalah menjadi <strong>Network Engineer</strong>
+            yang kompeten dan bersertifikat.
+          </p>
+        </div>
+        <div class="about-info">
+          <div class="info-row">
+            <span class="info-label">📍 Lokasi</span>
+            <span>Blitar, Jawa Timur</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">🏫 Sekolah</span>
+            <span>SMK Islam 1 Blitar</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">📚 Jurusan</span>
+            <span>Teknik Komputer & Jaringan</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">🎯 Target</span>
+            <span>Network Engineer</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">📧 Email</span>
+            <span>radityofreelance@gmail.com</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Keahlian & Teknologi</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3 class="skill-group-title">🌐 Jaringan</h3>
+          <ul class="list">
+            <li>Perakitan & Troubleshooting PC</li>
+            <li>Crimping Kabel UTP (Straight & Cross)</li>
+            <li>IP Addressing & Subnetting Dasar</li>
+            <li>Konfigurasi MikroTik & Routing</li>
+            <li>Cisco Packet Tracer (Basic Simulation)</li>
+            <li>Splicing Fiber Optic</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">💻 Sistem & Web</h3>
+          <ul class="list">
+            <li>Instalasi Windows & Basic Linux</li>
+            <li>Simulasi Topologi Jaringan</li>
+            <li>HTML & CSS (Belajar Mandiri)</li>
+            <li>Manajemen IP Address</li>
+            <li>Instalasi & Troubleshooting OS</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Project & Portfolio</h2>
+      <div class="project-cards">
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">🌐</span>
+            <span class="project-tag">Networking</span>
+          </div>
+          <h3>Jaringan LAN Sederhana</h3>
+          <p>Konfigurasi IP manual dan pengujian koneksi antar perangkat menggunakan perintah ping di lab sekolah.</p>
+          <div class="project-tech">
+            <span>IP Config</span><span>CLI</span><span>LAN</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">🗺️</span>
+            <span class="project-tag">Simulasi</span>
+          </div>
+          <h3>Simulasi Topologi Jaringan</h3>
+          <p>Membangun dan menguji topologi star, bus, dan ring menggunakan Cisco Packet Tracer.</p>
+          <div class="project-tech">
+            <span>Cisco PT</span><span>Topologi</span><span>Routing</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">📡</span>
+            <span class="project-tag">Hardware</span>
+          </div>
+          <h3>Konfigurasi MikroTik</h3>
+          <p>Setting dasar router MikroTik agar jaringan lokal bisa terhubung ke internet dengan benar.</p>
+          <div class="project-tech">
+            <span>MikroTik</span><span>RouterOS</span><span>DHCP</span>
+          </div>
+        </div>
+
+        <div class="project-card featured">
+          <div class="project-header">
+            <span class="project-icon">🖥️</span>
+            <span class="project-tag">Web Dev</span>
+          </div>
+          <h3>Website Portofolio Ini</h3>
+          <p>Portofolio pribadi yang dibangun dengan HTML & CSS murni. Responsif, dark mode, dan slider gambar.</p>
+          <div class="project-tech">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+          </div>
+          <a href="#" class="project-link">Lihat Source →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROGRESS BELAJAR -->
+    <section id="progress">
+      <h2>Progress Belajar</h2>
+      <div class="ig-slider">
+        <div class="ig-slides">
+          <img src="img1.jpg" alt="Progress 1">
+          <img src="img2.jpg" alt="Progress 2">
+          <img src="img3.jpg" alt="Progress 3">
+        </div>
+        <div class="dots"></div>
+      </div>
+    </section>
+
+    <!-- ORGANISASI -->
+    <section id="org">
+      <h2>Pengalaman Organisasi</h2>
+      <div class="cards">
+        <div class="card">
+          <img src="ippnu.png" alt="IPNU">
+          <p><strong>IPNU</strong></p>
+          <p>Ikatan Pelajar Nahdlatul Ulama</p>
+        </div>
+        <div class="card">
+          <img src="pramuka.png" alt="Pramuka">
+          <p><strong>Pramuka</strong></p>
+          <p>Gerakan Pramuka MTsN 6 BLITAR</p>
+        </div>
+        <div class="card">
+          <img src="kommits.png" alt="Kommits TKJ">
+          <p><strong>Kommits TKJ</strong></p>
+          <p>Komunitas IT Siswa TKJ</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUJUAN KARIER -->
+    <section id="career">
+      <h2>Tujuan Karier</h2>
+      <div class="career-box">
+        <div class="career-icon">🚀</div>
+        <div>
+          <p class="career-title">Network Engineer &amp; IT Professional</p>
+          <p>
+            Saya ingin mengembangkan kemampuan di bidang jaringan komputer dan sistem,
+            mendapatkan sertifikasi seperti MTCNA (MikroTik) dan Cisco CCNA,
+            serta menjadi teknisi jaringan yang kompeten dan profesional di industri IT.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAK & SOSIAL -->
+    <section id="contact">
+      <h2>Kontak & Sosial Media</h2>
+
+      <div class="social-links">
+        <a href="mailto:radityofreelance@gmail.com?subject=Kerja Sama Dengan Radityo" class="social-card email">
+          <span class="social-icon">✉️</span>
+          <div>
+            <span class="social-name">Email</span>
+            <span class="social-handle">radityofreelance@gmail.com</span>
+          </div>
+        </a>
+        <a href="https://github.com/RadityoDev" target="_blank" class="social-card github">
+          <span class="social-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </span>
+          <div>
+            <span class="social-name">GitHub</span>
+            <span class="social-handle">@RadityoDev</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/raditzyo_?igsh=cDlxZDhxYXo2b2p4" target="_blank" class="social-card instagram">
+          <span class="social-icon">📸</span>
+          <div>
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">@raditzyo_</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="contact-divider">
+        <span>atau kirim pesan langsung</span>
+      </div>
+
+      <form action="https://formspree.io/f/mvzbaopq" method="POST">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Nama Anda" required>
+          <input type="email" name="email" placeholder="Email Anda" required>
+        </div>
+        <textarea name="message" placeholder="Tulis pesan..." required></textarea>
+        <button type="submit">Kirim Pesan ✈</button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2025 Radityo Lintang Sasongko · Dibuat dengan ❤️ & HTML/CSS</p>
+    <p class="footer-sub">SMK Islam 1 Blitar · TKJ</p>
+  </footer>
+
+  <script>
+    // Dark mode
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const btn = document.querySelector(".toggle-btn");
+      btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    }
+
+    // Image slider
+    const slider = document.querySelector(".ig-slides");
+    const images = document.querySelectorAll(".ig-slides img");
+    const dotsContainer = document.querySelector(".dots");
+
+    let index = 0;
+    let startX = 0;
+    let isDragging = false;
+
+    images.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.addEventListener("click", () => { index = i; updateSlider(); });
+      dotsContainer.appendChild(dot);
+    });
+
+    function updateDots() {
+      document.querySelectorAll(".dots span").forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+
+    function updateSlider() {
+      slider.style.transform = `translateX(-${index * 100}%)`;
+      updateDots();
+    }
+
+    slider.addEventListener("touchstart", e => { startX = e.touches[0].clientX; isDragging = true; });
+    slider.addEventListener("touchmove", e => {
+      if (!isDragging) return;
+      const diff = startX - e.touches[0].clientX;
+      if (diff > 50) { index = Math.min(index + 1, images.length - 1); isDragging = false; updateSlider(); }
+      if (diff < -50) { index = Math.max(index - 1, 0); isDragging = false; updateSlider(); }
+    });
+    slider.addEventListener("touchend", () => { isDragging = false; });
+
+    updateSlider();
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll("section").forEach(s => observer.observe(s));
+  </script>
+
+
+<section id="homelab" class="homelab">
+<div class="section-title">
+<h2>🏠 My Homelab</h2>
+<p>Building and maintaining self-hosted services on Ubuntu Server.</p>
+</div>
+<div class="homelab-grid">
+<div class="lab-card"><h3>☁️ Nextcloud</h3><p>Private cloud storage.</p></div>
+<div class="lab-card"><h3>📸 Immich</h3><p>Photo management.</p></div>
+<div class="lab-card"><h3>🎵 Navidrome</h3><p>Music streaming.</p></div>
+<div class="lab-card"><h3>📊 Netdata</h3><p>Server monitoring.</p></div>
+<div class="lab-card"><h3>🔐 Tailscale</h3><p>Secure remote access.</p></div>
+<div class="lab-card"><h3>🐳 Docker</h3><p>Container platform.</p></div>
+</div>
+<div class="stats">
+<div><strong>10+</strong><span>Containers</span></div>
+<div><strong>8+</strong><span>Services</span></div>
+<div><strong>24/7</strong><span>Server</span></div>
+<div><strong>2026</strong><span>Homelab</span></div>
+</div>
+</section>
+
+</body>
+</html>
